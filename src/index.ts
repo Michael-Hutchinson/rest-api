@@ -4,7 +4,10 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
+import mongoose, { Error } from 'mongoose';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(
@@ -23,4 +26,10 @@ server.listen(8080, () => {
   console.log('Server is running on port 8080');
 });
 
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO = process.env.MONGO_URL;
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGO);
+mongoose.connection.on('error', (error: Error) => {
+  console.log('MongoDB connection error: ', error);
+});
