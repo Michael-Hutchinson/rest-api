@@ -11,13 +11,13 @@ export const isAuthenticated = async (
     const sessionToken = req.cookies['sessionToken'];
 
     if (!sessionToken) {
-      return res.status(403);
+      return res.sendStatus(403);
     }
 
     const existingUser = await getUserBySessionToken(sessionToken);
 
     if (!existingUser) {
-      return res.status(403);
+      return res.sendStatus(403);
     }
 
     merge(req, { identity: existingUser });
@@ -25,6 +25,6 @@ export const isAuthenticated = async (
     return next();
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res.sendStatus(400);
   }
 };
